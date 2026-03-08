@@ -1,0 +1,42 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    build-and-release:
+        name: Build & Release
+        runs-on: macos-26
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Cache
+              uses: actions/cache@v4
+              with:
+                  path: ~/VoiceInk-Dependencies
+                  key: cache-${{ runner.os }}-${{ runner.arch }}
+
+            - name: Build
+              run: make local
+
+            - name: Package
+              run: ditto -c -k --sequesterRsrc --keepParent ~/Downloads/VoiceInk.app VoiceInk.app.zip
+
+            - name: Upload
+              uses: actions/upload-artifact@v4
+              with:
+                  name: VoiceInk.app.zip
+                  path: VoiceInk.app.zip
+
+            - name: Upload to tip release
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: gh release upload tip VoiceInk.app.zip --clobber --repo "$GITHUB_REPOSITORY"
