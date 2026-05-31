@@ -1,8 +1,6 @@
 import SwiftUI
-import KeyboardShortcuts
 
 struct DictionarySettingsPanel: View {
-    @AppStorage("autoLearnVocabulary") private var autoLearnVocabulary: Bool = true
     let onDismiss: () -> Void
 
     var body: some View {
@@ -37,34 +35,8 @@ struct DictionarySettingsPanel: View {
             // Content
             Form {
                 Section {
-                    Toggle(isOn: $autoLearnVocabulary) {
-                        HStack(spacing: 4) {
-                            Text("Auto Learn Vocabulary")
-                            InfoTip("Automatically adds corrected words to your vocabulary when you edit a transcription after pasting. This feature is experimental and may not work perfectly.")
-                        }
-                    }
-                    .toggleStyle(.switch)
-                } header: {
-                    HStack(spacing: 6) {
-                        Text("Auto Learn")
-                        HStack(spacing: 3) {
-                            Image(systemName: "flask")
-                                .font(.system(size: 8, weight: .medium))
-                            Text("Experimental")
-                                .font(.caption2)
-                                .fontWeight(.medium)
-                        }
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.secondary.opacity(0.1))
-                        .clipShape(Capsule())
-                    }
-                }
-
-                Section {
                     LabeledContent("Quick Add to Dictionary") {
-                        KeyboardShortcuts.Recorder(for: .quickAddToDictionary)
+                        ShortcutRecorder(action: .quickAddToDictionary)
                             .controlSize(.small)
                     }
                 } header: {

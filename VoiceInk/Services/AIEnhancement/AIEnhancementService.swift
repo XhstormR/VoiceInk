@@ -220,11 +220,33 @@ class AIEnhancementService: ObservableObject {
 
         if aiService.selectedProvider == .ollama {
             do {
-                let result = try await aiService.enhanceWithOllama(text: formattedText, systemPrompt: systemMessage)
+                let result = try await aiService.enhanceWithOllama(
+                    text: formattedText,
+                    systemPrompt: systemMessage,
+                    timeout: baseTimeout
+                )
                 return AIEnhancementOutputFilter.filter(result)
             } catch {
                 if let localError = error as? LocalAIError {
-                    throw EnhancementError.customError(localError.errorDescription ?? "An unknown Ollama error occurred.")
+                    switch localError {
+                    case .timeout:
+                        throw EnhancementError.timeout
+                    default:
+                        throw EnhancementError.customError(localError.errorDescription ?? "An unknown Ollama error occurred.")
+                    }
+                } else {
+                    throw EnhancementError.customError(error.localizedDescription)
+                }
+            }
+        }
+
+        if aiService.selectedProvider == .localCLI {
+            do {
+                let result = try await aiService.enhanceWithLocalCLI(systemPrompt: systemMessage, userPrompt: formattedText)
+                return AIEnhancementOutputFilter.filter(result)
+            } catch {
+                if let localError = error as? LocalCLIError {
+                    throw EnhancementError.customError(localError.errorDescription ?? "An unknown Local CLI error occurred.")
                 } else {
                     throw EnhancementError.customError(error.localizedDescription)
                 }
@@ -249,8 +271,14 @@ class AIEnhancementService: ObservableObject {
                     throw EnhancementError.customError("\(aiService.selectedProvider.rawValue) has an invalid API endpoint URL. Please update it in AI settings.")
                 }
                 let temperature = aiService.currentModel.lowercased().hasPrefix("gpt-5") ? 1.0 : 0.3
-                let reasoningEffort = ReasoningConfig.getReasoningParameter(for: aiService.currentModel)
-                let extraBody = ReasoningConfig.getExtraBodyParameters(for: aiService.currentModel)
+                let reasoningEffort = ReasoningConfig.getReasoningParameter(
+                    for: aiService.selectedProvider,
+                    modelName: aiService.currentModel
+                )
+                let extraBody = ReasoningConfig.getExtraBodyParameters(
+                    for: aiService.selectedProvider,
+                    modelName: aiService.currentModel
+                )
                 result = try await OpenAILLMClient.chatCompletion(
                     baseURL: baseURL,
                     apiKey: aiService.apiKey,

@@ -1,5 +1,5 @@
 {
-  "originHash" : "28852cee5e4183e1b418bd9dad35774163897010ecbcbd5413d67f0f6913b7c4",
+  "originHash" : "d831b109b089cfc6a97c0c12cf31d8f5a0bb05a3abdc76065c515877d300da33",
   "pins" : [
     {
       "identity" : "axswift",
@@ -13,19 +13,10 @@
     {
       "identity" : "fluidaudio",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/FluidInference/FluidAudio",
+      "location" : "https://github.com/FluidInference/FluidAudio.git",
       "state" : {
         "branch" : "main",
-        "revision" : "7eb11e2bb6de3015a10208abac3a4dae0c42a4f1"
-      }
-    },
-    {
-      "identity" : "keyboardshortcuts",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
-      "state" : {
-        "revision" : "1aef85578fdd4f9eaeeb8d53b7b4fc31bf08fe27",
-        "version" : "2.4.0"
+        "revision" : "50aa07193e84b9cf192d8f36041c24a9a4867cd6"
       }
     },
     {
@@ -52,16 +43,16 @@
       "location" : "https://github.com/Beingpax/LLMkit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "1fde8fe8d63e292f24a23093030b7f6d09c5bdca"
+        "revision" : "adc2239e2a3c586fd442a8ec1d96dec8e9ae8917"
       }
     },
     {
       "identity" : "mediaremote-adapter",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ejbills/mediaremote-adapter",
+      "location" : "https://github.com/Beingpax/mediaremote-adapter",
       "state" : {
         "branch" : "master",
-        "revision" : "b8ce5d15898299d4d314413a3c4e3a1f3f678fa2"
+        "revision" : "b97fa53f0654c8e33519e8a601b0bead3abd310a"
       }
     },
     {
@@ -78,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "9a1d2a19d3595fcf8d9c447173f9a1687b3dcadb",
-        "version" : "2.8.0"
+        "revision" : "066e75a8b3e99962685d6a90cdd5293ebffd9261",
+        "version" : "2.9.1"
       }
     },
     {
