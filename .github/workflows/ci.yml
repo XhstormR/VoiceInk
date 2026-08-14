@@ -24,6 +24,12 @@ jobs:
                   path: ~/VoiceInk-Dependencies
                   key: cache-${{ runner.os }}-${{ runner.arch }}
 
+            # mlx-swift 携带 CudaBuild 构建插件，Xcode 要求交互式信任其指纹；
+            - name: Trust package plugin and macro
+              run: |
+                  defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+                  defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+
             - name: Build
               run: make local
 
